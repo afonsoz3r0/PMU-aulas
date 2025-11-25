@@ -1,0 +1,60 @@
+// Estilos do Header personalizado
+.custom-header {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --color: white;
+  
+  ion-toolbar {
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+}
+
+.header-title {
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    
+    .header-logo {
+      font-size: 28px;
+      color: #fff;
+    }
+    
+    .app-name {
+      font-size: 22px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+#container {
+  text-align: center;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 20px;
+}
+
+#container strong {
+  font-size: 24px;
+  line-height: 30px;
+  color: #333;
+  display: block;
+  margin-bottom: 10px;
+}
+
+#container p {
+  font-size: 16px;
+  line-height: 22px;
+  color: #8c8c8c;
+  margin: 0;
+}
+
+#container a {
+  text-decoration: none;
+}

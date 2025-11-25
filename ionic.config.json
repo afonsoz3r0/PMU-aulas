@@ -1,0 +1,7 @@
+{
+  "name": "pmu-aulas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
