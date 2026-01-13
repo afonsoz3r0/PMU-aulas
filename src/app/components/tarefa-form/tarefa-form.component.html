@@ -1,0 +1,74 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <ion-list>
+    <ion-item [class.ion-invalid]="isFieldInvalid('titulo')" lines="full">
+      <ion-label position="stacked">Título <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input formControlName="titulo" placeholder="Digite o título da tarefa"></ion-input>
+      <ion-note slot="error" *ngIf="isFieldInvalid('titulo')">
+        {{ getErrorMessage('titulo') }}
+      </ion-note>
+    </ion-item>
+
+    <ion-item [class.ion-invalid]="isFieldInvalid('descricao')" lines="full">
+      <ion-label position="stacked">Descrição <ion-text color="danger">*</ion-text></ion-label>
+      <ion-textarea formControlName="descricao" rows="4" placeholder="Descreva a tarefa"></ion-textarea>
+      <ion-note slot="error" *ngIf="isFieldInvalid('descricao')">
+        {{ getErrorMessage('descricao') }}
+      </ion-note>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="stacked">Status</ion-label>
+      <ion-select formControlName="status" placeholder="Selecione o status">
+        <ion-select-option *ngFor="let option of statusOptions" [value]="option.value">
+          {{ option.label }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="stacked">Prioridade</ion-label>
+      <ion-select formControlName="prioridade" placeholder="Selecione a prioridade">
+        <ion-select-option *ngFor="let option of prioridadeOptions" [value]="option.value">
+          {{ option.label }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="stacked">Data de Vencimento</ion-label>
+      <ion-input type="date" formControlName="dataVencimento"></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="stacked">Projeto</ion-label>
+      <ion-select formControlName="projetoId" placeholder="Selecione um projeto">
+        <ion-select-option [value]="null">Sem projeto</ion-select-option>
+        <ion-select-option *ngFor="let projeto of projetos" [value]="projeto.id">
+          {{ projeto.nome }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="stacked">Categoria</ion-label>
+      <ion-input formControlName="categoria" placeholder="Ex: Trabalho, Pessoal, Estudos"></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked">Tags (separadas por vírgula)</ion-label>
+      <ion-input formControlName="tags" placeholder="Ex: urgente, importante, projeto"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="form-actions">
+    <ion-button expand="block" type="submit" [disabled]="form.invalid" size="large">
+      <ion-icon name="checkmark" slot="start"></ion-icon>
+      {{ tarefa ? 'Atualizar' : 'Criar' }} Tarefa
+    </ion-button>
+    <ion-button expand="block" fill="outline" type="button" (click)="onCancel()" size="large">
+      <ion-icon name="close" slot="start"></ion-icon>
+      Cancelar
+    </ion-button>
+  </div>
+</form>
+

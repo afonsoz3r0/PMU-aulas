@@ -1,0 +1,173 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Perfil</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-container">
+    <!-- Profile Card -->
+    <ion-card class="card-modern">
+      <ion-card-header>
+        <ion-card-title>
+          <div class="profile-header">
+            <ion-avatar class="profile-avatar">
+              <ion-icon name="person" size="large"></ion-icon>
+            </ion-avatar>
+            <div class="profile-info">
+              <h2>Meu Perfil</h2>
+              <p>Gerencie suas tarefas e acompanhe seu progresso</p>
+            </div>
+          </div>
+        </ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <!-- Quick Actions -->
+    <div class="dashboard-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <ion-icon name="flash" color="primary"></ion-icon>
+          Atalhos Rápidos
+        </h2>
+      </div>
+      <div class="quick-actions-grid">
+        <ion-card class="quick-action-card" button (click)="navegarParaProjetos()">
+          <ion-card-content>
+            <div class="quick-action-content">
+              <ion-icon name="folder" color="secondary" class="quick-action-icon"></ion-icon>
+              <h3>Projetos</h3>
+              <p>Gerenciar</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="quick-action-card" button (click)="navegarParaCategorias()">
+          <ion-card-content>
+            <div class="quick-action-content">
+              <ion-icon name="pricetags" color="warning" class="quick-action-icon"></ion-icon>
+              <h3>Categorias</h3>
+              <p>Organizar</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="quick-action-card" button (click)="navegarParaSettings()">
+          <ion-card-content>
+            <div class="quick-action-content">
+              <ion-icon name="settings" color="tertiary" class="quick-action-icon"></ion-icon>
+              <h3>Configurações</h3>
+              <p>Ajustes</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="quick-action-card" button (click)="navegarParaAbout()">
+          <ion-card-content>
+            <div class="quick-action-content">
+              <ion-icon name="information-circle" color="primary" class="quick-action-icon"></ion-icon>
+              <h3>Sobre</h3>
+              <p>Informações</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <!-- Estatísticas -->
+    <div class="dashboard-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <ion-icon name="stats-chart" color="primary"></ion-icon>
+          Estatísticas
+        </h2>
+      </div>
+      <ion-card class="card-modern">
+        <ion-card-content>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-icon stat-icon-primary">
+                <ion-icon name="list-outline"></ion-icon>
+              </div>
+              <div class="stat-content">
+                <h3 class="stat-value">{{ totalTarefas }}</h3>
+                <p class="stat-label">Total</p>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon stat-icon-warning">
+                <ion-icon name="time-outline"></ion-icon>
+              </div>
+              <div class="stat-content">
+                <h3 class="stat-value">{{ tarefasPendentes }}</h3>
+                <p class="stat-label">Pendentes</p>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon stat-icon-tertiary">
+                <ion-icon name="hourglass-outline"></ion-icon>
+              </div>
+              <div class="stat-content">
+                <h3 class="stat-value">{{ tarefasEmProgresso }}</h3>
+                <p class="stat-label">Em Progresso</p>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon stat-icon-success">
+                <ion-icon name="checkmark-circle-outline"></ion-icon>
+              </div>
+              <div class="stat-content">
+                <h3 class="stat-value">{{ tarefasConcluidas }}</h3>
+                <p class="stat-label">Concluídas</p>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Tarefas Recentes -->
+    <div class="dashboard-section" *ngIf="tarefasRecentes.length > 0">
+      <div class="section-header">
+        <h2 class="section-title">
+          <ion-icon name="time" color="primary"></ion-icon>
+          Tarefas Recentes
+        </h2>
+      </div>
+      <ion-card class="card-modern">
+        <ion-card-content>
+          <ion-list lines="none">
+            <ion-item 
+              *ngFor="let tarefa of tarefasRecentes" 
+              button
+              (click)="navegarParaTarefa(tarefa.id)"
+              class="task-item">
+              <ion-label>
+                <h3>{{ tarefa.titulo }}</h3>
+                <p>{{ formatDate(tarefa.dataCriacao) }}</p>
+              </ion-label>
+              <ion-chip slot="end" size="small" [color]="tarefa.status === 'done' ? 'success' : tarefa.status === 'in_progress' ? 'warning' : 'primary'">
+                <ion-label>
+                  {{ tarefa.status === 'done' ? 'Concluída' : tarefa.status === 'in_progress' ? 'Em Progresso' : 'Pendente' }}
+                </ion-label>
+              </ion-chip>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

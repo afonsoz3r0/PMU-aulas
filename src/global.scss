@@ -35,3 +35,252 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/**
+ * ============================================
+ * CLASSES UTILITÁRIAS LEVES
+ * ============================================
+ */
+
+// Spacing Utilities
+.spacing-xs { margin: var(--ion-spacing-xs); }
+.spacing-sm { margin: var(--ion-spacing-sm); }
+.spacing-md { margin: var(--ion-spacing-md); }
+.spacing-lg { margin: var(--ion-spacing-lg); }
+.spacing-xl { margin: var(--ion-spacing-xl); }
+
+.p-xs { padding: var(--ion-spacing-xs); }
+.p-sm { padding: var(--ion-spacing-sm); }
+.p-md { padding: var(--ion-spacing-md); }
+.p-lg { padding: var(--ion-spacing-lg); }
+.p-xl { padding: var(--ion-spacing-xl); }
+
+.mt-xs { margin-top: var(--ion-spacing-xs); }
+.mt-sm { margin-top: var(--ion-spacing-sm); }
+.mt-md { margin-top: var(--ion-spacing-md); }
+.mt-lg { margin-top: var(--ion-spacing-lg); }
+.mt-xl { margin-top: var(--ion-spacing-xl); }
+
+.mb-xs { margin-bottom: var(--ion-spacing-xs); }
+.mb-sm { margin-bottom: var(--ion-spacing-sm); }
+.mb-md { margin-bottom: var(--ion-spacing-md); }
+.mb-lg { margin-bottom: var(--ion-spacing-lg); }
+.mb-xl { margin-bottom: var(--ion-spacing-xl); }
+
+.gap-xs { gap: var(--ion-spacing-xs); }
+.gap-sm { gap: var(--ion-spacing-sm); }
+.gap-md { gap: var(--ion-spacing-md); }
+.gap-lg { gap: var(--ion-spacing-lg); }
+.gap-xl { gap: var(--ion-spacing-xl); }
+
+/**
+ * ============================================
+ * PADRÕES DE TÍTULOS
+ * ============================================
+ */
+
+.page-title {
+  font-size: 1.875rem; // 30px
+  font-weight: 700;
+  color: var(--ion-color-dark);
+  margin: 0 0 var(--ion-spacing-sm) 0;
+  line-height: 1.2;
+}
+
+.page-subtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--ion-color-medium);
+  margin: 0 0 var(--ion-spacing-md) 0;
+  line-height: 1.5;
+}
+
+.section-title {
+  font-size: 1.25rem; // 20px
+  font-weight: 600;
+  color: var(--ion-color-dark);
+  margin: 0 0 var(--ion-spacing-md) 0;
+}
+
+.section-subtitle {
+  font-size: 0.875rem; // 14px
+  font-weight: 400;
+  color: var(--ion-color-medium);
+  margin: 0 0 var(--ion-spacing-sm) 0;
+}
+
+/**
+ * ============================================
+ * PADRÕES DE CARDS
+ * ============================================
+ */
+
+.card-modern {
+  margin: 0 0 var(--ion-spacing-lg) 0;
+  border-radius: var(--ion-border-radius-lg);
+  box-shadow: var(--ion-box-shadow-md);
+  border: 1px solid var(--ion-border-color);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: var(--ion-box-shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  ion-card-header {
+    padding: var(--ion-spacing-md);
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-primary-shade) 100%);
+    color: var(--ion-color-primary-contrast);
+
+    ion-card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    ion-card-subtitle {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      margin-top: var(--ion-spacing-xs);
+    }
+  }
+
+  ion-card-content {
+    padding: var(--ion-spacing-md);
+  }
+}
+
+.card-elevated {
+  box-shadow: var(--ion-box-shadow-lg);
+  border: none;
+}
+
+.card-flat {
+  box-shadow: none;
+  border: 1px solid var(--ion-border-color);
+}
+
+/**
+ * ============================================
+ * ESTILO CONSISTENTE PARA EMPTY STATES
+ * ============================================
+ */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ion-spacing-2xl) var(--ion-spacing-lg);
+  text-align: center;
+  min-height: 300px;
+
+  .empty-icon {
+    font-size: 4rem;
+    color: var(--ion-color-medium);
+    margin-bottom: var(--ion-spacing-lg);
+    opacity: 0.6;
+  }
+
+  .empty-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    margin: 0 0 var(--ion-spacing-sm) 0;
+  }
+
+  .empty-message {
+    font-size: 1rem;
+    color: var(--ion-color-medium);
+    margin: 0 0 var(--ion-spacing-lg) 0;
+    max-width: 300px;
+    line-height: 1.5;
+  }
+
+  ion-button {
+    margin-top: var(--ion-spacing-md);
+  }
+}
+
+/**
+ * ============================================
+ * LOADING STATES
+ * ============================================
+ */
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: var(--ion-spacing-md);
+
+  ion-spinner {
+    --color: var(--ion-color-primary);
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 0.875rem;
+    margin: 0;
+  }
+}
+
+/**
+ * ============================================
+ * FILTROS E CONTROLES
+ * ============================================
+ */
+
+.filters-group {
+  background: var(--ion-color-light);
+  border-radius: var(--ion-border-radius-md);
+  padding: var(--ion-spacing-md);
+  margin-bottom: var(--ion-spacing-lg);
+  border: 1px solid var(--ion-border-color);
+
+  .filters-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 var(--ion-spacing-sm) 0;
+  }
+}
+
+/**
+ * ============================================
+ * UTILITÁRIOS GERAIS
+ * ============================================
+ */
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.font-medium { font-weight: 500; }
+.font-normal { font-weight: 400; }
+
+.text-primary { color: var(--ion-color-primary); }
+.text-secondary { color: var(--ion-color-secondary); }
+.text-medium { color: var(--ion-color-medium); }
+.text-dark { color: var(--ion-color-dark); }
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+
+.rounded-sm { border-radius: var(--ion-border-radius-sm); }
+.rounded-md { border-radius: var(--ion-border-radius-md); }
+.rounded-lg { border-radius: var(--ion-border-radius-lg); }
+
+.shadow-sm { box-shadow: var(--ion-box-shadow-sm); }
+.shadow-md { box-shadow: var(--ion-box-shadow-md); }
+.shadow-lg { box-shadow: var(--ion-box-shadow-lg); }

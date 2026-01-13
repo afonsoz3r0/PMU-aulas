@@ -1,0 +1,143 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/projetos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ projeto?.nome || 'Detalhes do Projeto' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ projeto?.nome || 'Detalhes do Projeto' }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Carregando detalhes do projeto...</p>
+  </div>
+
+  <!-- Project Details -->
+  <div *ngIf="!loading && projeto" class="page-container">
+    <ion-card class="card-modern">
+      <ion-card-header>
+        <ion-card-title>{{ projeto.nome }}</ion-card-title>
+        <ion-card-subtitle>
+          <ion-chip *ngIf="categoria" [style.background-color]="categoria.cor || 'var(--ion-color-primary)'" class="category-chip">
+            <ion-icon [name]="categoria.icone || 'folder-outline'" [style.color]="'white'"></ion-icon>
+            <ion-label [style.color]="'white'">{{ categoria.nome }}</ion-label>
+          </ion-chip>
+          <ion-chip *ngIf="!categoria" color="medium" class="category-chip">
+            <ion-icon name="folder-outline"></ion-icon>
+            <ion-label>Sem Categoria</ion-label>
+          </ion-chip>
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item *ngIf="projeto.descricao">
+            <ion-icon name="document-text-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>Descrição</h3>
+              <p>{{ projeto.descricao }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>Criado em</h3>
+              <p>{{ formatDate(projeto.dataCriacao) }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="list-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>Total de Tarefas</h3>
+              <p>{{ tarefas.length }} tarefa(s)</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Tasks Section -->
+    <div class="tasks-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <ion-icon name="list" color="primary"></ion-icon>
+          Tarefas do Projeto
+        </h2>
+        <ion-button fill="outline" size="small" (click)="navegarParaCriarTarefa()">
+          <ion-icon name="add" slot="start"></ion-icon>
+          Adicionar Tarefa
+        </ion-button>
+      </div>
+
+      <!-- Empty State for Tasks -->
+      <app-empty-state
+        *ngIf="tarefas.length === 0"
+        [icon]="'checkmark-circle-outline'"
+        [titulo]="'Nenhuma tarefa neste projeto'"
+        [mensagem]="'Adicione tarefas para organizar o trabalho do projeto.'"
+        [mostrarBotao]="true"
+        [textoBotao]="'Adicionar Tarefa'"
+        (onClick)="navegarParaCriarTarefa()">
+      </app-empty-state>
+
+      <!-- Task Cards -->
+      <div *ngIf="tarefas.length > 0">
+        <app-tarefa-card
+          [titulo]="'To Do'"
+          [tarefas]="toDo"
+          (editarTarefa)="navegarParaTarefa($event)"
+          (eliminarTarefa)="loadTarefas(projeto!.id)"
+          (reordenarTarefas)="onReordenarTarefas($event.event, $event.tipo)">
+        </app-tarefa-card>
+
+        <app-tarefa-card
+          [titulo]="'In Progress'"
+          [tarefas]="inProgress"
+          (editarTarefa)="navegarParaTarefa($event)"
+          (eliminarTarefa)="loadTarefas(projeto!.id)"
+          (reordenarTarefas)="onReordenarTarefas($event.event, $event.tipo)">
+        </app-tarefa-card>
+
+        <app-tarefa-card
+          [titulo]="'Done'"
+          [tarefas]="done"
+          (editarTarefa)="navegarParaTarefa($event)"
+          (eliminarTarefa)="loadTarefas(projeto!.id)"
+          (reordenarTarefas)="onReordenarTarefas($event.event, $event.tipo)">
+        </app-tarefa-card>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <ion-button expand="block" (click)="navegarParaEditar()">
+        <ion-icon name="create-outline" slot="start"></ion-icon>
+        Editar Projeto
+      </ion-button>
+      <ion-button expand="block" fill="clear" (click)="navegarParaProjetos()">
+        Voltar para Projetos
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <app-empty-state
+    *ngIf="!loading && !projeto"
+    [icon]="'alert-circle-outline'"
+    [titulo]="'Projeto não encontrado'"
+    [mensagem]="'O projeto que você está procurando não existe.'"
+    [mostrarBotao]="true"
+    [textoBotao]="'Voltar para Projetos'"
+    (onClick)="navegarParaProjetos()">
+  </app-empty-state>
+</ion-content>

@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mover Tarefa</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onCancelar()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="tarefa">
+    <p class="tarefa-info">
+      <strong>Tarefa:</strong> {{ tarefa.titulo }}
+    </p>
+    <p class="tarefa-info" *ngIf="tarefa.projetoId">
+      <strong>Projeto atual:</strong> {{ getProjetoNome(tarefa.projetoId) }}
+    </p>
+    <p class="tarefa-info" *ngIf="!tarefa.projetoId">
+      <strong>Projeto atual:</strong> Sem projeto
+    </p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Carregando projetos...</p>
+  </div>
+
+  <!-- Projects List -->
+  <ion-list *ngIf="!loading">
+    <ion-radio-group [(ngModel)]="projetoSelecionado">
+      <ion-item>
+        <ion-label>
+          <h2>Sem projeto</h2>
+          <p>Remover tarefa do projeto atual</p>
+        </ion-label>
+        <ion-radio slot="start" [value]="null"></ion-radio>
+      </ion-item>
+
+      <ion-item *ngFor="let projeto of projetos">
+        <ion-label>
+          <h2>{{ projeto.nome }}</h2>
+          <p *ngIf="projeto.descricao">{{ projeto.descricao }}</p>
+        </ion-label>
+        <ion-radio slot="start" [value]="projeto.id"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && projetos.length === 0" class="empty-state">
+    <ion-icon name="folder-outline" class="empty-icon"></ion-icon>
+    <p>Nenhum projeto disponível</p>
+    <p class="empty-message">Crie um projeto primeiro para poder mover tarefas.</p>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="outline" (click)="onCancelar()">
+        Cancelar
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="onConfirmar()" [disabled]="loading || projetos.length === 0">
+        <ion-icon name="checkmark" slot="start"></ion-icon>
+        Mover
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+

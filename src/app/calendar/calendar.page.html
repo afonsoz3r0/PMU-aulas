@@ -1,0 +1,94 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Calendário</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Calendário</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-container">
+    <!-- Date Selector Card -->
+    <ion-card class="card-modern">
+      <ion-card-header>
+        <ion-card-title>Selecionar Data</ion-card-title>
+        <ion-card-subtitle>Escolha uma data para ver as tarefas agendadas</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Data</ion-label>
+          <ion-input type="date" [value]="selectedDate" (ionChange)="onDateChange($event)"></ion-input>
+        </ion-item>
+        <p class="selected-date">{{ formatDate(selectedDate) }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-container">
+      <ion-spinner></ion-spinner>
+      <p>Carregando tarefas...</p>
+    </div>
+
+    <!-- Tasks Card -->
+    <ion-card *ngIf="!loading && getTarefasForDate(selectedDate).length > 0" class="card-modern">
+      <ion-card-header>
+        <ion-card-title>
+          Tarefas para esta data
+          <ion-badge color="primary">{{ getTarefasForDate(selectedDate).length }}</ion-badge>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item 
+            *ngFor="let tarefa of getTarefasForDate(selectedDate)" 
+            button
+            (click)="onTarefaClick(tarefa)"
+            class="task-item">
+            <ion-label>
+              <h2>
+                {{ tarefa.titulo }}
+                <ion-badge *ngIf="isAtrasada(tarefa)" color="danger" class="badge-atrasada">Atrasada</ion-badge>
+              </h2>
+              <p *ngIf="tarefa.descricao">{{ tarefa.descricao }}</p>
+              <div class="task-meta">
+                <ion-chip size="small" [color]="getPrioridadeColor(tarefa.prioridade)">
+                  <ion-label>{{ tarefa.prioridade | titlecase }}</ion-label>
+                </ion-chip>
+                <ion-chip size="small" [color]="getStatusColor(tarefa.status)">
+                  <ion-label>
+                    {{ tarefa.status === 'todo' ? 'Pendente' : tarefa.status === 'in_progress' ? 'Em Progresso' : 'Concluída' }}
+                  </ion-label>
+                </ion-chip>
+                <span class="task-time" *ngIf="tarefa.dataVencimento">
+                  <ion-icon name="time-outline"></ion-icon>
+                  {{ formatDate(selectedDate) }}
+                </span>
+              </div>
+            </ion-label>
+            <ion-icon name="chevron-forward-outline" slot="end" color="medium"></ion-icon>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Empty State -->
+    <app-empty-state
+      *ngIf="!loading && getTarefasForDate(selectedDate).length === 0"
+      [icon]="'calendar-outline'"
+      [titulo]="'Nenhuma tarefa'"
+      [mensagem]="'Não há tarefas agendadas para esta data.'"
+      [mostrarBotao]="false">
+    </app-empty-state>
+  </div>
+</ion-content>

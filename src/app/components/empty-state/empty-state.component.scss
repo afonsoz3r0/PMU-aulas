@@ -1,0 +1,31 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  min-height: 300px;
+
+  .empty-icon {
+    font-size: 5rem;
+    color: var(--ion-color-medium);
+    margin-bottom: 1.5rem;
+  }
+
+  .empty-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .empty-message {
+    font-size: 1rem;
+    color: var(--ion-color-medium);
+    margin: 0 0 1.5rem 0;
+    max-width: 300px;
+  }
+}
+
+

@@ -1,0 +1,98 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Projetos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Projetos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-container">
+    <!-- Filtro por Categoria -->
+    <div class="filters-group" *ngIf="categorias.length > 0">
+      <p class="filters-title">Filtros</p>
+      <ion-item class="filter-item">
+        <ion-label position="stacked">Filtrar por categoria</ion-label>
+        <ion-select [(ngModel)]="filterCategoriaId" (ionChange)="onFilterChange($event)" placeholder="Todas">
+          <ion-select-option [value]="null">Todas</ion-select-option>
+          <ion-select-option *ngFor="let cat of categorias" [value]="cat.id">
+            {{ cat.nome }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-container">
+      <ion-spinner></ion-spinner>
+      <p>Carregando projetos...</p>
+    </div>
+
+    <!-- Empty State -->
+    <app-empty-state
+      *ngIf="!loading && projetosFiltrados.length === 0"
+      [icon]="'folder-outline'"
+      [titulo]="filterCategoriaId ? 'Nenhum projeto nesta categoria' : 'Nenhum projeto encontrado'"
+      [mensagem]="filterCategoriaId ? 'Tente selecionar outra categoria ou crie um novo projeto.' : 'Crie seu primeiro projeto para começar!'"
+      [mostrarBotao]="true"
+      [textoBotao]="'Adicionar Projeto'"
+      (onClick)="navegarParaCriar()">
+    </app-empty-state>
+
+    <!-- Projects List -->
+    <ion-list *ngIf="!loading && projetosFiltrados.length > 0" class="projects-list">
+      <ion-item-sliding *ngFor="let projeto of projetosFiltrados">
+        <ion-item button (click)="navegarParaDetalhe(projeto.id)">
+          <ion-icon 
+            *ngIf="getCategoriaById(projeto.categoriaId)?.icone"
+            [name]="getCategoriaById(projeto.categoriaId)!.icone!" 
+            slot="start"
+            [style.color]="getCategoriaById(projeto.categoriaId)?.cor || 'var(--ion-color-primary)'">
+          </ion-icon>
+          <ion-icon 
+            *ngIf="!getCategoriaById(projeto.categoriaId)?.icone"
+            name="folder-outline" 
+            slot="start"
+            [style.color]="getCategoriaById(projeto.categoriaId)?.cor || 'var(--ion-color-primary)'">
+          </ion-icon>
+          <ion-label>
+            <h2>{{ projeto.nome }}</h2>
+            <p>
+              <ion-chip *ngIf="getCategoriaById(projeto.categoriaId)" size="small" [style.background-color]="getCategoriaById(projeto.categoriaId)?.cor || 'var(--ion-color-primary)'">
+                <ion-label [style.color]="'white'">{{ getCategoriaById(projeto.categoriaId)?.nome }}</ion-label>
+              </ion-chip>
+              <span *ngIf="!getCategoriaById(projeto.categoriaId)">Sem categoria</span>
+            </p>
+            <p *ngIf="projeto.descricao" class="descricao">{{ projeto.descricao }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="primary" (click)="navegarParaEditar(projeto.id, $event)">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-item-option>
+          <ion-item-option color="danger" (click)="onEliminar(projeto.id, $event)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+
+  <!-- FAB para adicionar projeto -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="navegarParaCriar()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

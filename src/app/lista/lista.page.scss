@@ -1,0 +1,70 @@
+// Page Container
+.page-container {
+  padding: var(--ion-spacing-md);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+// Search Section
+.search-section {
+  margin-bottom: var(--ion-spacing-md);
+}
+
+.searchbar-modern {
+  --background: var(--ion-color-light);
+  --border-radius: var(--ion-border-radius-md);
+  --box-shadow: var(--ion-box-shadow-sm);
+  --placeholder-color: var(--ion-color-medium);
+  padding: 0;
+}
+
+// Filters Group (usa classe global, mas com ajustes locais)
+.filters-group {
+  .filters-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ion-spacing-sm);
+  }
+}
+
+.filter-item {
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+  --min-height: auto;
+  margin-bottom: var(--ion-spacing-sm);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  ion-label {
+    h3 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+      margin: 0 0 0.25rem 0;
+    }
+
+    .filter-hint {
+      font-size: 0.75rem;
+      color: var(--ion-color-medium);
+      margin: 0;
+    }
+  }
+}
+
+// Tasks Section
+.tasks-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ion-spacing-lg);
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .page-container {
+    padding: var(--ion-spacing-sm);
+  }
+}

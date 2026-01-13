@@ -1,0 +1,10 @@
+<div class="empty-state">
+  <ion-icon [name]="icon" class="empty-icon"></ion-icon>
+  <h2 class="empty-title">{{ titulo }}</h2>
+  <p class="empty-message">{{ mensagem }}</p>
+  <ion-button *ngIf="mostrarBotao" fill="outline" (click)="onClick.emit()">
+    {{ textoBotao }}
+  </ion-button>
+</div>
+
+

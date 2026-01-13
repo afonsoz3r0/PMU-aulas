@@ -1,0 +1,65 @@
+<ion-card class="tarefa-card" [attr.data-tipo]="titulo">
+  <ion-card-header class="card-header" [ngClass]="'header-' + titulo.toLowerCase().replace(' ', '-')">
+    <ion-card-title>{{ titulo }}</ion-card-title>
+    <ion-card-subtitle *ngIf="titulo === 'To Do'">Pendentes</ion-card-subtitle>
+    <ion-card-subtitle *ngIf="titulo === 'In Progress'">Em Andamento</ion-card-subtitle>
+    <ion-card-subtitle *ngIf="titulo === 'Done'">Concluídas</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list *ngIf="tarefas.length > 0">
+      <ion-reorder-group [disabled]="false" (ionItemReorder)="onReorder($event, titulo)">
+        <ion-item 
+          *ngFor="let tarefa of tarefas" 
+          class="tarefa-item"
+          button
+          [routerLink]="['/tarefa', tarefa.id]">
+          <ion-reorder slot="start"></ion-reorder>
+          <ion-label>
+            <h2>
+              {{ tarefa.titulo }}
+              <ion-badge *ngIf="isAtrasada(tarefa)" color="danger" class="badge-atrasada">
+                Atrasada
+              </ion-badge>
+            </h2>
+            <p>{{ tarefa.descricao }}</p>
+            <div class="tarefa-meta">
+              <ion-chip *ngIf="tarefa.projetoId" size="small" color="tertiary">
+                <ion-icon name="folder-outline" slot="start"></ion-icon>
+                <ion-label>{{ getProjetoNome(tarefa.projetoId) }}</ion-label>
+              </ion-chip>
+              <ion-chip *ngIf="tarefa.categoria" size="small" color="primary">
+                <ion-label>{{ tarefa.categoria }}</ion-label>
+              </ion-chip>
+              <ion-chip size="small" [color]="getPrioridadeColor(tarefa.prioridade)">
+                <ion-label>{{ tarefa.prioridade }}</ion-label>
+              </ion-chip>
+              <span *ngIf="tarefa.dataVencimento" class="data-vencimento" [class.atrasada]="isAtrasada(tarefa)">
+                <ion-icon name="calendar-outline"></ion-icon>
+                {{ formatDate(tarefa.dataVencimento) }}
+              </span>
+            </div>
+          </ion-label>
+          <ion-button 
+            fill="clear" 
+            size="small" 
+            (click)="onEditar(tarefa.id, $event)">
+            <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button 
+            fill="clear" 
+            size="small" 
+            color="danger"
+            (click)="onEliminar(tarefa.id, $event)">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-reorder-group>
+    </ion-list>
+    <app-empty-state 
+      *ngIf="tarefas.length === 0"
+      [icon]="'checkmark-circle-outline'"
+      [titulo]="'Nenhuma tarefa'"
+      [mensagem]="'Não há tarefas nesta categoria.'">
+    </app-empty-state>
+  </ion-card-content>
+</ion-card>

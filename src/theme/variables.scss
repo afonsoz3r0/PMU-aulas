@@ -1,2 +1,155 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+
+/**
+ * Paleta de Cores Profissional - MyTasks
+ * Baseada em design system moderno com contraste adequado
+ */
+
+:root {
+  // ============================================
+  // CORES PRIMÁRIAS
+  // ============================================
+  
+  // Primary - Azul moderno e confiável
+  --ion-color-primary: #4F46E5; // Indigo 600
+  --ion-color-primary-rgb: 79, 70, 229;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #453DD9;
+  --ion-color-primary-tint: #6259E8;
+
+  // Secondary - Verde suave para ações positivas
+  --ion-color-secondary: #10B981; // Emerald 500
+  --ion-color-secondary-rgb: 16, 185, 129;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #0EA372;
+  --ion-color-secondary-tint: #28C191;
+
+  // Tertiary - Roxo para diferenciação
+  --ion-color-tertiary: #8B5CF6; // Violet 500
+  --ion-color-tertiary-rgb: 139, 92, 246;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #7A4FE5;
+  --ion-color-tertiary-tint: #976DF7;
+
+  // ============================================
+  // CORES SEMÂNTICAS
+  // ============================================
+  
+  // Success - Verde para confirmações
+  --ion-color-success: #10B981; // Emerald 500
+  --ion-color-success-rgb: 16, 185, 129;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #0EA372;
+  --ion-color-success-tint: #28C191;
+
+  // Warning - Amarelo para avisos
+  --ion-color-warning: #F59E0B; // Amber 500
+  --ion-color-warning-rgb: 245, 158, 11;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #D88B0A;
+  --ion-color-warning-tint: #F6A824;
+
+  // Danger - Vermelho para erros e ações destrutivas
+  --ion-color-danger: #EF4444; // Red 500
+  --ion-color-danger-rgb: 239, 68, 68;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #D23C3C;
+  --ion-color-danger-tint: #F15757;
+
+  // ============================================
+  // CORES NEUTRAS
+  // ============================================
+  
+  // Dark - Texto principal e elementos escuros
+  --ion-color-dark: #1F2937; // Gray 800
+  --ion-color-dark-rgb: 31, 41, 55;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1B232E;
+  --ion-color-dark-tint: #353E4B;
+
+  // Medium - Texto secundário
+  --ion-color-medium: #6B7280; // Gray 500
+  --ion-color-medium-rgb: 107, 114, 128;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #5E6471;
+  --ion-color-medium-tint: #7A808F;
+
+  // Light - Fundos suaves
+  --ion-color-light: #F9FAFB; // Gray 50
+  --ion-color-light-rgb: 249, 250, 251;
+  --ion-color-light-contrast: #1F2937;
+  --ion-color-light-contrast-rgb: 31, 41, 55;
+  --ion-color-light-shade: #DBDCDD;
+  --ion-color-light-tint: #FAFBFC;
+
+  // ============================================
+  // CORES PERSONALIZADAS PARA STATUS
+  // ============================================
+  
+  // Todo - Azul para pendentes
+  --ion-color-todo: #3B82F6; // Blue 500
+  --ion-color-todo-rgb: 59, 130, 246;
+  --ion-color-todo-contrast: #ffffff;
+  --ion-color-todo-contrast-rgb: 255, 255, 255;
+  --ion-color-todo-shade: #3472D8;
+  --ion-color-todo-tint: #4F8FF7;
+
+  // Progress - Amarelo para em progresso
+  --ion-color-progress: #F59E0B; // Amber 500
+  --ion-color-progress-rgb: 245, 158, 11;
+  --ion-color-progress-contrast: #ffffff;
+  --ion-color-progress-contrast-rgb: 255, 255, 255;
+  --ion-color-progress-shade: #D88B0A;
+  --ion-color-progress-tint: #F6A824;
+
+  // Done - Verde para concluídas
+  --ion-color-done: #10B981; // Emerald 500
+  --ion-color-done-rgb: 16, 185, 129;
+  --ion-color-done-contrast: #ffffff;
+  --ion-color-done-contrast-rgb: 255, 255, 255;
+  --ion-color-done-shade: #0EA372;
+  --ion-color-done-tint: #28C191;
+
+  // ============================================
+  // VARIÁVEIS ADICIONAIS
+  // ============================================
+  
+  // Background padrão
+  --ion-background-color: #FFFFFF;
+  --ion-background-color-rgb: 255, 255, 255;
+  
+  // Texto padrão
+  --ion-text-color: #1F2937;
+  --ion-text-color-rgb: 31, 41, 55;
+  
+  // Bordas
+  --ion-border-color: #E5E7EB; // Gray 200
+  
+  // Sombras suaves
+  --ion-box-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --ion-box-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --ion-box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  // Espaçamentos padrão
+  --ion-spacing-xs: 0.25rem;  // 4px
+  --ion-spacing-sm: 0.5rem;   // 8px
+  --ion-spacing-md: 1rem;     // 16px
+  --ion-spacing-lg: 1.5rem;   // 24px
+  --ion-spacing-xl: 2rem;     // 32px
+  --ion-spacing-2xl: 3rem;    // 48px
+  
+  // Border radius
+  --ion-border-radius-sm: 0.375rem;  // 6px
+  --ion-border-radius-md: 0.5rem;     // 8px
+  --ion-border-radius-lg: 0.75rem;    // 12px
+  --ion-border-radius-xl: 1rem;       // 16px
+}

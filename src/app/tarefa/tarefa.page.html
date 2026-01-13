@@ -1,13 +1,120 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>tarefa</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/lista"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalhes da Tarefa</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">tarefa</ion-title>
+      <ion-title size="large">Detalhes da Tarefa</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Carregando tarefa...</p>
+  </div>
+
+  <!-- Tarefa Details -->
+  <div *ngIf="!loading && tarefa" class="page-container">
+    <ion-card class="card-modern">
+      <ion-card-header>
+        <ion-card-title>{{ tarefa.titulo }}</ion-card-title>
+        <ion-card-subtitle>
+          <ion-chip [color]="getPrioridadeColor(tarefa.prioridade)">
+            <ion-label>{{ tarefa.prioridade | titlecase }}</ion-label>
+          </ion-chip>
+          <ion-chip [color]="tarefa.status === 'done' ? 'success' : 'primary'">
+            <ion-label>{{ getStatusLabel(tarefa.status) }}</ion-label>
+          </ion-chip>
+          <ion-badge *ngIf="isAtrasada(tarefa)" color="danger" class="badge-atrasada">Atrasada</ion-badge>
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="detail-section">
+          <h3>Descrição</h3>
+          <p>{{ tarefa.descricao }}</p>
+        </div>
+
+        <div class="detail-section" *ngIf="tarefa.projetoId">
+          <h3>
+            <ion-icon name="folder-outline"></ion-icon>
+            Projeto
+          </h3>
+          <p>{{ getProjetoNome(tarefa.projetoId) }}</p>
+        </div>
+
+        <div class="detail-section" *ngIf="tarefa.categoria">
+          <h3>
+            <ion-icon name="pricetag-outline"></ion-icon>
+            Categoria
+          </h3>
+          <p>{{ tarefa.categoria }}</p>
+        </div>
+
+        <div class="detail-section" *ngIf="tarefa.dataVencimento">
+          <h3>
+            <ion-icon name="calendar-outline"></ion-icon>
+            Data de Vencimento
+          </h3>
+          <p [class.atrasada]="isAtrasada(tarefa)">{{ formatDate(tarefa.dataVencimento) }}</p>
+        </div>
+
+        <div class="detail-section">
+          <h3>
+            <ion-icon name="time-outline"></ion-icon>
+            Data de Criação
+          </h3>
+          <p>{{ formatDate(tarefa.dataCriacao) }}</p>
+        </div>
+
+        <div class="detail-section" *ngIf="tarefa.tags && tarefa.tags.length > 0">
+          <h3>
+            <ion-icon name="pricetags-outline"></ion-icon>
+            Tags
+          </h3>
+          <div class="tags-container">
+            <ion-chip *ngFor="let tag of tarefa.tags" size="small">
+              <ion-label>{{ tag }}</ion-label>
+            </ion-chip>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="action-buttons">
+      <ion-button expand="block" (click)="navegarParaEditar()">
+        <ion-icon name="create-outline" slot="start"></ion-icon>
+        Editar Tarefa
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="abrirModalMover()">
+        <ion-icon name="swap-horizontal-outline" slot="start"></ion-icon>
+        Mover para Projeto
+      </ion-button>
+      <ion-button expand="block" fill="outline" color="danger" (click)="excluirTarefa()">
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        Excluir Tarefa
+      </ion-button>
+      <ion-button expand="block" fill="clear" (click)="navegarParaLista()">
+        Voltar para Lista
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <app-empty-state
+    *ngIf="!loading && !tarefa"
+    [icon]="'alert-circle-outline'"
+    [titulo]="'Tarefa não encontrada'"
+    [mensagem]="'A tarefa que você está procurando não existe.'"
+    [mostrarBotao]="true"
+    [textoBotao]="'Voltar para Lista'"
+    (onClick)="navegarParaLista()">
+  </app-empty-state>
 </ion-content>

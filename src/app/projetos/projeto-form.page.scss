@@ -1,0 +1,55 @@
+.page-container {
+  padding: var(--ion-spacing-md);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-card {
+  margin: 0;
+
+  ion-card-header {
+    padding-bottom: 0;
+  }
+
+  ion-card-content {
+    padding-top: 0;
+  }
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ion-spacing-sm);
+
+  ion-button {
+    margin: 0;
+  }
+}
+
+ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+
+  &.ion-invalid {
+    --border-color: var(--ion-color-danger);
+  }
+}
+
+ion-note {
+  font-size: 0.875rem;
+
+  &[slot="error"] {
+    color: var(--ion-color-danger);
+  }
+
+  &[slot="helper"] {
+    color: var(--ion-color-medium);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .page-container {
+    padding: var(--ion-spacing-sm);
+  }
+}

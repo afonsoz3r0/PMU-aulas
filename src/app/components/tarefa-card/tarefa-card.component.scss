@@ -1,0 +1,143 @@
+.tarefa-card {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid var(--ion-color-light-shade);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-header {
+    padding: 16px;
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-primary-shade) 100%);
+    color: var(--ion-color-primary-contrast);
+
+    ion-card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    ion-card-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+  }
+
+  // Estilos específicos para cada tipo de cartão
+  &[data-tipo="To Do"] .card-header {
+    background: linear-gradient(135deg, var(--ion-color-todo) 0%, var(--ion-color-todo-shade) 100%);
+    color: var(--ion-color-todo-contrast);
+  }
+
+  &[data-tipo="In Progress"] .card-header {
+    background: linear-gradient(135deg, var(--ion-color-progress) 0%, var(--ion-color-progress-shade) 100%);
+    color: var(--ion-color-progress-contrast);
+  }
+
+  &[data-tipo="Done"] .card-header {
+    background: linear-gradient(135deg, var(--ion-color-done) 0%, var(--ion-color-done-shade) 100%);
+    color: var(--ion-color-done-contrast);
+  }
+
+  ion-card-content {
+    padding: 0;
+  }
+
+  .tarefa-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 72px;
+    border-bottom: 1px solid var(--ion-color-light-shade);
+    transition: background-color 0.2s ease;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      --background: var(--ion-color-light);
+    }
+
+    ion-label {
+      h2 {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--ion-color-dark);
+        margin-bottom: 4px;
+      }
+
+      p {
+        font-size: 0.9rem;
+        color: var(--ion-color-medium);
+        margin-top: 0;
+        margin-bottom: 8px;
+      }
+
+      .tarefa-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+
+        ion-chip {
+          margin: 0;
+        }
+
+        .data-vencimento {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 0.75rem;
+          color: var(--ion-color-medium);
+          margin-left: 8px;
+          
+          ion-icon {
+            font-size: 0.875rem;
+          }
+          
+          &.atrasada {
+            color: var(--ion-color-danger);
+            font-weight: 600;
+          }
+        }
+      }
+
+      h2 {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .badge-atrasada {
+        margin-left: 8px;
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+    }
+
+    ion-button {
+      --padding-start: 8px;
+      --padding-end: 8px;
+      margin: 0 4px;
+
+      ion-icon {
+        font-size: 1.2rem;
+      }
+    }
+
+    ion-reorder {
+      margin-right: 12px;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+

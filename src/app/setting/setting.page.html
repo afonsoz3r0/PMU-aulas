@@ -1,0 +1,138 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Configurações</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Configurações</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="page-container">
+    <ion-card class="card-modern">
+      <ion-card-header>
+        <ion-card-title>Configurações</ion-card-title>
+        <ion-card-subtitle>Personalize sua experiência</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="full">
+          <!-- Notificações -->
+          <ion-item>
+            <ion-icon name="notifications-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h2>Notificações</h2>
+              <p *ngIf="isNative">
+                {{ permissoesConcedidas ? 'Receber alertas sobre tarefas próximas do vencimento' : 'Permissão não concedida' }}
+              </p>
+              <p *ngIf="!isNative" class="text-warning">
+                Notificações só funcionam em dispositivos móveis
+              </p>
+            </ion-label>
+            <ion-toggle 
+              slot="end" 
+              [checked]="notificacoesHabilitadas"
+              [disabled]="!isNative || !permissoesConcedidas"
+              (ionChange)="onNotificacoesToggle($event)">
+            </ion-toggle>
+          </ion-item>
+
+          <!-- Botão para solicitar permissões (se necessário) -->
+          <ion-item *ngIf="isNative && !permissoesConcedidas" button (click)="solicitarPermissoes()">
+            <ion-icon name="shield-checkmark-outline" slot="start" color="warning"></ion-icon>
+            <ion-label>
+              <h2>Solicitar Permissão de Notificações</h2>
+              <p>Toque para conceder permissão</p>
+            </ion-label>
+            <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+          </ion-item>
+
+          <!-- Configurações de Notificações (apenas se habilitadas) -->
+          <div *ngIf="notificacoesHabilitadas && permissoesConcedidas">
+            <ion-item>
+              <ion-icon name="calendar-outline" slot="start" color="secondary"></ion-icon>
+              <ion-label position="stacked">
+                <h2>Dias de Antecedência</h2>
+                <p>Quantos dias antes do vencimento notificar</p>
+              </ion-label>
+              <ion-input 
+                type="number" 
+                [value]="diasAntecedencia"
+                min="0"
+                max="30"
+                (ionInput)="onDiasAntecedenciaChange($event)">
+              </ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-icon name="time-outline" slot="start" color="tertiary"></ion-icon>
+              <ion-label position="stacked">
+                <h2>Hora da Notificação</h2>
+                <p>Hora do dia para enviar notificações (HH:MM)</p>
+              </ion-label>
+              <ion-input 
+                type="time" 
+                [value]="horaNotificacao"
+                (ionInput)="onHoraNotificacaoChange($event)">
+              </ion-input>
+            </ion-item>
+          </div>
+
+          <!-- Tema -->
+          <ion-item>
+            <ion-icon name="color-palette-outline" slot="start" color="tertiary"></ion-icon>
+            <ion-label>
+              <h2>Tema</h2>
+              <p>Escolher tema claro ou escuro</p>
+            </ion-label>
+            <ion-toggle slot="end"></ion-toggle>
+          </ion-item>
+
+          <!-- Idioma -->
+          <ion-item>
+            <ion-icon name="language-outline" slot="start" color="secondary"></ion-icon>
+            <ion-label>
+              <h2>Idioma</h2>
+              <p>Português</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Informações sobre Notificações -->
+    <ion-card class="card-modern" *ngIf="isNative">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="information-circle-outline" color="primary"></ion-icon>
+          Sobre Notificações
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Você receberá notificações quando:</p>
+        <ion-list lines="none">
+          <ion-item>
+            <ion-icon name="checkmark-circle-outline" slot="start" color="success"></ion-icon>
+            <ion-label>
+              <p>Uma tarefa está próxima do vencimento</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="checkmark-circle-outline" slot="start" color="success"></ion-icon>
+            <ion-label>
+              <p>Uma tarefa vence hoje</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        <p class="text-medium">
+          <small>As notificações são agendadas automaticamente quando você cria ou edita tarefas com data de vencimento.</small>
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

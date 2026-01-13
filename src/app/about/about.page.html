@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sobre</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Sobre</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="page-container">
+    <ion-card class="card-modern">
+      <ion-card-header>
+        <ion-card-title>Sobre o MyTasks</ion-card-title>
+        <ion-card-subtitle>Gestão de tarefas simplificada</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>MyTasks é uma aplicação móvel desenvolvida para gestão de tarefas diárias.</p>
+        <p>Organize suas tarefas de forma simples e eficiente.</p>
+        
+        <div class="info-section">
+          <h3>Funcionalidades</h3>
+          <ion-list lines="none">
+            <ion-item>
+              <ion-icon name="checkmark-circle-outline" slot="start" color="success"></ion-icon>
+              <ion-label>Gestão de tarefas com projetos e categorias</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="checkmark-circle-outline" slot="start" color="success"></ion-icon>
+              <ion-label>Calendário integrado</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="checkmark-circle-outline" slot="start" color="success"></ion-icon>
+              <ion-label>Organização por prioridade e status</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="checkmark-circle-outline" slot="start" color="success"></ion-icon>
+              <ion-label>Notificações de tarefas atrasadas</ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

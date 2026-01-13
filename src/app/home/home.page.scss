@@ -1,60 +1,210 @@
-// Estilos do Header personalizado
-.custom-header {
-  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --color: white;
+// Header Styles
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   
-  ion-toolbar {
-    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  .header-logo {
+    font-size: 1.5rem;
+    color: var(--ion-color-primary);
+  }
+  
+  .app-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    letter-spacing: 0.02em;
   }
 }
 
-.header-title {
-  .header-content {
+// Page Container
+.page-container {
+  padding: var(--ion-spacing-md);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+// Dashboard Sections
+.dashboard-section {
+  margin-bottom: var(--ion-spacing-xl);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--ion-spacing-md);
+  padding: 0 var(--ion-spacing-xs);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--ion-spacing-sm);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+  margin: 0;
+
+  ion-icon {
+    font-size: 1.5rem;
+  }
+}
+
+// Cards
+.card-modern {
+  &.card-danger {
+    border-left: 4px solid var(--ion-color-danger);
+  }
+}
+
+// Task Items
+.task-item {
+  --padding-start: var(--ion-spacing-md);
+  --padding-end: var(--ion-spacing-md);
+  --inner-padding-end: 0;
+  --min-height: auto;
+  margin-bottom: var(--ion-spacing-sm);
+  border-radius: var(--ion-border-radius-md);
+  border: 1px solid var(--ion-border-color);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    --background: var(--ion-color-light);
+    transform: translateX(4px);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  ion-label {
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+      margin: 0 0 0.25rem 0;
+      display: flex;
+      align-items: center;
+      gap: var(--ion-spacing-sm);
+      flex-wrap: wrap;
+
+      .badge-atrasada {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+      }
+    }
+
+    p {
+      font-size: 0.875rem;
+      color: var(--ion-color-medium);
+      margin: 0 0 var(--ion-spacing-sm) 0;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--ion-spacing-sm);
+  flex-wrap: wrap;
+  margin-top: var(--ion-spacing-xs);
+
+  ion-chip {
+    margin: 0;
+    font-size: 0.75rem;
+  }
+
+  .task-date {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    
-    .header-logo {
-      font-size: 28px;
-      color: #fff;
-    }
-    
-    .app-name {
-      font-size: 22px;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: 0.5px;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--ion-color-medium);
+    margin-left: auto;
+
+    ion-icon {
+      font-size: 0.875rem;
     }
   }
 }
 
-#container {
-  text-align: center;
+// Quick Actions
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--ion-spacing-md);
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 20px;
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-#container strong {
-  font-size: 24px;
-  line-height: 30px;
-  color: #333;
-  display: block;
-  margin-bottom: 10px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  color: #8c8c8c;
+.quick-action-card {
   margin: 0;
+  border-radius: var(--ion-border-radius-lg);
+  box-shadow: var(--ion-box-shadow-sm);
+  border: 1px solid var(--ion-border-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ion-box-shadow-md);
+  }
+
+  &:active {
+    transform: translateY(-2px);
+  }
+
+  ion-card-content {
+    padding: var(--ion-spacing-md);
+  }
 }
 
-#container a {
-  text-decoration: none;
+.quick-action-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--ion-spacing-sm);
+
+  .quick-action-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--ion-spacing-xs);
+  }
+
+  h3 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.75rem;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .page-container {
+    padding: var(--ion-spacing-sm);
+  }
+
+  .section-title {
+    font-size: 1.125rem;
+  }
+
+  .quick-actions-grid {
+    gap: var(--ion-spacing-sm);
+  }
 }

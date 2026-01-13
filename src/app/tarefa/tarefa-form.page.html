@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="isEditMode ? '/tarefa/' + (tarefa?.id || '') : '/lista'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Editar Tarefa' : 'Nova Tarefa' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ isEditMode ? 'Editar Tarefa' : 'Nova Tarefa' }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Carregando...</p>
+  </div>
+
+  <!-- Form -->
+  <div *ngIf="!loading" class="page-container">
+    <ion-card class="form-card">
+      <ion-card-header>
+        <ion-card-title>{{ isEditMode ? 'Editar Tarefa' : 'Nova Tarefa' }}</ion-card-title>
+        <ion-card-subtitle>Preencha os campos abaixo</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <app-tarefa-form-component
+          [tarefa]="tarefa || undefined"
+          [projetoIdInicial]="projetoIdInicial"
+          (submitForm)="onSubmit($event)"
+          (cancel)="onCancel()">
+        </app-tarefa-form-component>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

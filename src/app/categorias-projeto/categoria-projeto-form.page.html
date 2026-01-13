@@ -1,0 +1,85 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/categorias-projeto"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Editar Categoria' : 'Nova Categoria' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ isEditMode ? 'Editar Categoria' : 'Nova Categoria' }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Carregando...</p>
+  </div>
+
+  <!-- Form -->
+  <div *ngIf="!loading" class="page-container">
+    <ion-card class="form-card">
+      <ion-card-header>
+        <ion-card-title>{{ isEditMode ? 'Editar Categoria' : 'Nova Categoria' }}</ion-card-title>
+        <ion-card-subtitle>Preencha os campos abaixo para {{ isEditMode ? 'atualizar' : 'criar' }} a categoria.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <ion-list lines="full" class="ion-no-margin ion-no-padding">
+            <ion-item [class.ion-invalid]="isFieldInvalid('nome')">
+              <ion-label position="stacked">
+                Nome <ion-text color="danger">*</ion-text>
+              </ion-label>
+              <ion-input 
+                formControlName="nome" 
+                placeholder="Ex: Trabalho, Pessoal, Estudos">
+              </ion-input>
+              <ion-note slot="error" *ngIf="isFieldInvalid('nome')">
+                {{ getErrorMessage('nome') }}
+              </ion-note>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Cor (hex)</ion-label>
+              <ion-input 
+                type="text" 
+                formControlName="cor" 
+                placeholder="#3880ff"
+                pattern="^#[0-9A-Fa-f]{6}$">
+              </ion-input>
+              <ion-note slot="helper">
+                Cor em formato hexadecimal (ex: #3880ff)
+              </ion-note>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Ícone</ion-label>
+              <ion-input 
+                formControlName="icone" 
+                placeholder="Ex: briefcase-outline, home-outline">
+              </ion-input>
+              <ion-note slot="helper">
+                Nome do ícone do Ionicons (ex: briefcase-outline)
+              </ion-note>
+            </ion-item>
+          </ion-list>
+
+          <div class="form-actions ion-padding-top">
+            <ion-button expand="block" type="submit" [disabled]="form.invalid" size="large">
+              <ion-icon name="checkmark" slot="start"></ion-icon>
+              {{ isEditMode ? 'Atualizar' : 'Criar' }} Categoria
+            </ion-button>
+            <ion-button expand="block" fill="outline" type="button" (click)="onCancel()" size="large">
+              <ion-icon name="close" slot="start"></ion-icon>
+              Cancelar
+            </ion-button>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

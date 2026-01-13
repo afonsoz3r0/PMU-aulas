@@ -1,0 +1,30 @@
+.page-container {
+  padding: var(--ion-spacing-md);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.text-warning {
+  color: var(--ion-color-warning);
+  font-size: 0.875rem;
+}
+
+.text-medium {
+  color: var(--ion-color-medium);
+  font-size: 0.875rem;
+  margin-top: var(--ion-spacing-md);
+}
+
+ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .page-container {
+    padding: var(--ion-spacing-sm);
+  }
+}
+

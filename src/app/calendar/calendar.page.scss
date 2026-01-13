@@ -1,0 +1,99 @@
+.page-container {
+  padding: var(--ion-spacing-md);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.selected-date {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--ion-color-primary);
+  margin-top: var(--ion-spacing-md);
+  text-transform: capitalize;
+  padding: var(--ion-spacing-sm);
+  background: var(--ion-color-light);
+  border-radius: var(--ion-border-radius-md);
+}
+
+.task-item {
+  --padding-start: var(--ion-spacing-md);
+  --padding-end: var(--ion-spacing-md);
+  --inner-padding-end: 0;
+  --min-height: auto;
+  margin-bottom: var(--ion-spacing-sm);
+  border-radius: var(--ion-border-radius-md);
+  border: 1px solid var(--ion-border-color);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    --background: var(--ion-color-light);
+    transform: translateX(4px);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  ion-label {
+    h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+      margin: 0 0 0.25rem 0;
+      display: flex;
+      align-items: center;
+      gap: var(--ion-spacing-sm);
+      flex-wrap: wrap;
+
+      .badge-atrasada {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+      }
+    }
+
+    p {
+      font-size: 0.875rem;
+      color: var(--ion-color-medium);
+      margin: 0 0 var(--ion-spacing-sm) 0;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--ion-spacing-sm);
+  flex-wrap: wrap;
+  margin-top: var(--ion-spacing-xs);
+
+  ion-chip {
+    margin: 0;
+    font-size: 0.75rem;
+  }
+
+  .task-time {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--ion-color-medium);
+    margin-left: auto;
+
+    ion-icon {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .page-container {
+    padding: var(--ion-spacing-sm);
+  }
+}

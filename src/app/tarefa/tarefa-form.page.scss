@@ -1,0 +1,24 @@
+.page-container {
+  padding: var(--ion-spacing-md);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-card {
+  margin: 0;
+
+  ion-card-header {
+    padding-bottom: 0;
+  }
+
+  ion-card-content {
+    padding-top: 0;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .page-container {
+    padding: var(--ion-spacing-sm);
+  }
+}

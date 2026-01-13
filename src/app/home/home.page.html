@@ -1,6 +1,9 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="custom-header">
-    <ion-title class="header-title">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
       <div class="header-content">
         <ion-icon name="checkmark-circle" class="header-logo"></ion-icon>
         <span class="app-name">MyTasks</span>
@@ -11,8 +14,8 @@
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar class="custom-header">
-      <ion-title size="large" class="header-title">
+    <ion-toolbar>
+      <ion-title size="large">
         <div class="header-content">
           <ion-icon name="checkmark-circle" class="header-logo"></ion-icon>
           <span class="app-name">MyTasks</span>
@@ -21,8 +24,237 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Bem-vindo ao MyTasks!</strong>
-    <p>Gerencie suas tarefas diárias de forma simples e eficiente.</p>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-container">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-container">
+      <ion-spinner></ion-spinner>
+      <p>Carregando dashboard...</p>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div *ngIf="!loading">
+      <!-- Seção: Tarefas em Atraso -->
+      <div class="dashboard-section" *ngIf="tarefasAtrasadas.length > 0">
+        <div class="section-header">
+          <h2 class="section-title">
+            <ion-icon name="alert-circle" color="danger"></ion-icon>
+            Em Atraso
+          </h2>
+          <ion-badge color="danger">{{ tarefasAtrasadas.length }}</ion-badge>
+        </div>
+        <ion-card class="card-modern card-danger">
+          <ion-card-content>
+            <ion-list lines="none">
+              <ion-item 
+                *ngFor="let tarefa of tarefasAtrasadas" 
+                button
+                (click)="navegarParaTarefa(tarefa.id)"
+                class="task-item">
+                <ion-label>
+                  <h3>
+                    {{ tarefa.titulo }}
+                    <ion-badge color="danger" class="badge-atrasada">Atrasada</ion-badge>
+                  </h3>
+                  <p>{{ tarefa.descricao }}</p>
+                  <div class="task-meta">
+                    <ion-chip size="small" [color]="getPrioridadeColor(tarefa.prioridade)">
+                      <ion-label>{{ tarefa.prioridade }}</ion-label>
+                    </ion-chip>
+                    <ion-chip size="small" [color]="getStatusColor(tarefa.status)">
+                      <ion-label>{{ tarefa.status === 'todo' ? 'Pendente' : tarefa.status === 'in_progress' ? 'Em Progresso' : 'Concluída' }}</ion-label>
+                    </ion-chip>
+                    <span class="task-date">
+                      <ion-icon name="calendar-outline"></ion-icon>
+                      {{ formatDate(tarefa.dataVencimento) }}
+                    </span>
+                  </div>
+                </ion-label>
+                <ion-button 
+                  fill="clear" 
+                  size="small" 
+                  (click)="navegarParaEditarTarefa(tarefa.id); $event.stopPropagation()">
+                  <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <!-- Seção: Tarefas para Hoje -->
+      <div class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <ion-icon name="today" color="primary"></ion-icon>
+            Hoje
+          </h2>
+          <ion-badge color="primary" *ngIf="tarefasHoje.length > 0">{{ tarefasHoje.length }}</ion-badge>
+        </div>
+        <ion-card class="card-modern" *ngIf="tarefasHoje.length > 0">
+          <ion-card-content>
+            <ion-list lines="none">
+              <ion-item 
+                *ngFor="let tarefa of tarefasHoje" 
+                button
+                (click)="navegarParaTarefa(tarefa.id)"
+                class="task-item">
+                <ion-label>
+                  <h3>
+                    {{ tarefa.titulo }}
+                    <ion-badge *ngIf="isAtrasada(tarefa)" color="danger" class="badge-atrasada">Atrasada</ion-badge>
+                  </h3>
+                  <p>{{ tarefa.descricao }}</p>
+                  <div class="task-meta">
+                    <ion-chip size="small" [color]="getPrioridadeColor(tarefa.prioridade)">
+                      <ion-label>{{ tarefa.prioridade }}</ion-label>
+                    </ion-chip>
+                    <ion-chip size="small" [color]="getStatusColor(tarefa.status)">
+                      <ion-label>{{ tarefa.status === 'todo' ? 'Pendente' : tarefa.status === 'in_progress' ? 'Em Progresso' : 'Concluída' }}</ion-label>
+                    </ion-chip>
+                    <span class="task-date">
+                      <ion-icon name="time-outline"></ion-icon>
+                      Hoje
+                    </span>
+                  </div>
+                </ion-label>
+                <ion-button 
+                  fill="clear" 
+                  size="small" 
+                  (click)="navegarParaEditarTarefa(tarefa.id); $event.stopPropagation()">
+                  <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+        <app-empty-state
+          *ngIf="tarefasHoje.length === 0"
+          [icon]="'calendar-outline'"
+          [titulo]="'Nenhuma tarefa para hoje'"
+          [mensagem]="'Você não tem tarefas agendadas para hoje.'"
+          [mostrarBotao]="false">
+        </app-empty-state>
+      </div>
+
+      <!-- Seção: Próximas 7 Dias -->
+      <div class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <ion-icon name="calendar" color="tertiary"></ion-icon>
+            Próximos 7 Dias
+          </h2>
+          <ion-badge color="tertiary" *ngIf="tarefasProximos7Dias.length > 0">{{ tarefasProximos7Dias.length }}</ion-badge>
+        </div>
+        <ion-card class="card-modern" *ngIf="tarefasProximos7Dias.length > 0">
+          <ion-card-content>
+            <ion-list lines="none">
+              <ion-item 
+                *ngFor="let tarefa of tarefasProximos7Dias" 
+                button
+                (click)="navegarParaTarefa(tarefa.id)"
+                class="task-item">
+                <ion-label>
+                  <h3>
+                    {{ tarefa.titulo }}
+                    <ion-badge *ngIf="isAtrasada(tarefa)" color="danger" class="badge-atrasada">Atrasada</ion-badge>
+                  </h3>
+                  <p>{{ tarefa.descricao }}</p>
+                  <div class="task-meta">
+                    <ion-chip size="small" [color]="getPrioridadeColor(tarefa.prioridade)">
+                      <ion-label>{{ tarefa.prioridade }}</ion-label>
+                    </ion-chip>
+                    <ion-chip size="small" [color]="getStatusColor(tarefa.status)">
+                      <ion-label>{{ tarefa.status === 'todo' ? 'Pendente' : tarefa.status === 'in_progress' ? 'Em Progresso' : 'Concluída' }}</ion-label>
+                    </ion-chip>
+                    <span class="task-date">
+                      <ion-icon name="calendar-outline"></ion-icon>
+                      {{ formatDate(tarefa.dataVencimento) }}
+                    </span>
+                  </div>
+                </ion-label>
+                <ion-button 
+                  fill="clear" 
+                  size="small" 
+                  (click)="navegarParaEditarTarefa(tarefa.id); $event.stopPropagation()">
+                  <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+        <app-empty-state
+          *ngIf="tarefasProximos7Dias.length === 0"
+          [icon]="'calendar-outline'"
+          [titulo]="'Nenhuma tarefa agendada'"
+          [mensagem]="'Você não tem tarefas agendadas para os próximos 7 dias.'"
+          [mostrarBotao]="false">
+        </app-empty-state>
+      </div>
+
+      <!-- Seção: Atalhos Rápidos -->
+      <div class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <ion-icon name="flash" color="secondary"></ion-icon>
+            Atalhos Rápidos
+          </h2>
+        </div>
+        <div class="quick-actions-grid">
+          <ion-card class="quick-action-card" button (click)="navegarParaCriarTarefa()">
+            <ion-card-content>
+              <div class="quick-action-content">
+                <ion-icon name="add-circle" color="primary" class="quick-action-icon"></ion-icon>
+                <h3>Nova Tarefa</h3>
+                <p>Criar tarefa</p>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="quick-action-card" button (click)="navegarParaCalendario()">
+            <ion-card-content>
+              <div class="quick-action-content">
+                <ion-icon name="calendar" color="tertiary" class="quick-action-icon"></ion-icon>
+                <h3>Calendário</h3>
+                <p>Ver agenda</p>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="quick-action-card" button (click)="navegarParaProjetos()">
+            <ion-card-content>
+              <div class="quick-action-content">
+                <ion-icon name="folder" color="secondary" class="quick-action-icon"></ion-icon>
+                <h3>Projetos</h3>
+                <p>Gerenciar</p>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="quick-action-card" button (click)="navegarParaCategorias()">
+            <ion-card-content>
+              <div class="quick-action-content">
+                <ion-icon name="pricetags" color="warning" class="quick-action-icon"></ion-icon>
+                <h3>Categorias</h3>
+                <p>Organizar</p>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="quick-action-card" button (click)="navegarParaLista()">
+            <ion-card-content>
+              <div class="quick-action-content">
+                <ion-icon name="list" color="primary" class="quick-action-icon"></ion-icon>
+                <h3>Lista Completa</h3>
+                <p>Ver todas</p>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+    </div>
   </div>
 </ion-content>

@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'tabs',
     pathMatch: 'full'
   },
   {
@@ -18,6 +18,42 @@ const routes: Routes = [
   {
     path: 'tarefa',
     loadChildren: () => import('./tarefa/tarefa.module').then( m => m.TarefaPageModule)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
+  },
+  {
+    path: 'calendar',
+    loadChildren: () => import('./calendar/calendar.module').then( m => m.CalendarPageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'about',
+    loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
+  },
+  {
+    path: 'questions',
+    loadChildren: () => import('./questions/questions.module').then( m => m.QuestionsPageModule)
+  },
+  {
+    path: 'setting',
+    loadChildren: () => import('./setting/setting.module').then( m => m.SettingPageModule)
+  },
+  {
+    path: 'credits',
+    loadChildren: () => import('./credits/credits.module').then( m => m.CreditsPageModule)
+  },
+  {
+    path: 'categorias-projeto',
+    loadChildren: () => import('./categorias-projeto/categorias-projeto.module').then( m => m.CategoriasProjetoPageModule)
+  },
+  {
+    path: 'projetos',
+    loadChildren: () => import('./projetos/projetos.module').then( m => m.ProjetosPageModule)
   },
 ];
 

@@ -1,0 +1,32 @@
+form {
+  width: 100%;
+
+  ion-list {
+    background: transparent;
+    padding: 0;
+  }
+
+  ion-item {
+    --padding-start: 0;
+    --padding-end: 0;
+    --inner-padding-end: 0;
+    margin-bottom: 0.5rem;
+
+    &.ion-invalid {
+      --highlight-color-focused: var(--ion-color-danger);
+    }
+
+    ion-label {
+      font-weight: 500;
+    }
+  }
+
+  .form-actions {
+    margin-top: 2rem;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+

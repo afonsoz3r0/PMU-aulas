@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Editar Tarefa</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onCancelar()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" *ngIf="!loading">
+    <ion-list lines="full">
+      <!-- Título -->
+      <ion-item [class.ion-invalid]="form.get('titulo')?.invalid && form.get('titulo')?.touched">
+        <ion-label position="stacked">
+          Título <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-input formControlName="titulo" placeholder="Título da tarefa"></ion-input>
+        <ion-note slot="error" *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">
+          Título é obrigatório (mínimo 3 caracteres)
+        </ion-note>
+      </ion-item>
+
+      <!-- Projeto -->
+      <ion-item>
+        <ion-label position="stacked">Projeto</ion-label>
+        <ion-select formControlName="projetoId" placeholder="Selecione um projeto">
+          <ion-select-option [value]="null">Sem projeto</ion-select-option>
+          <ion-select-option *ngFor="let projeto of projetos" [value]="projeto.id">
+            {{ projeto.nome }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Data de Vencimento -->
+      <ion-item>
+        <ion-label position="stacked">Data de Vencimento</ion-label>
+        <ion-input type="date" formControlName="dataVencimento"></ion-input>
+        <ion-note slot="helper">
+          Deixe vazio para remover a data
+        </ion-note>
+      </ion-item>
+
+      <!-- Prioridade -->
+      <ion-item>
+        <ion-label position="stacked">Prioridade</ion-label>
+        <ion-select formControlName="prioridade">
+          <ion-select-option *ngFor="let option of prioridadeOptions" [value]="option.value">
+            {{ option.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Status -->
+      <ion-item>
+        <ion-label position="stacked">Status</ion-label>
+        <ion-select formControlName="status">
+          <ion-select-option *ngFor="let option of statusOptions" [value]="option.value">
+            {{ option.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <!-- Preview de Chips -->
+    <div class="preview-section" *ngIf="form.valid">
+      <ion-chip [color]="getPrioridadeColor(form.value.prioridade)" size="small">
+        <ion-label>{{ form.value.prioridade | titlecase }}</ion-label>
+      </ion-chip>
+      <ion-chip [color]="getStatusColor(form.value.status)" size="small">
+        <ion-label>
+          {{ getStatusLabel(form.value.status) }}
+        </ion-label>
+      </ion-chip>
+    </div>
+  </form>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Carregando...</p>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="outline" (click)="onCancelar()">
+        Cancelar
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="onGuardar()" [disabled]="form.invalid || loading">
+        <ion-icon name="checkmark" slot="start"></ion-icon>
+        Guardar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
